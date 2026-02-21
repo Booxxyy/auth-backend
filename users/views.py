@@ -2,11 +2,10 @@ import datetime
 import jwt
 from django.conf import settings
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from users.serializers import RegisterSerializer, LoginSerializer, UserProfileSerializer, UpdateProfileSerializer
-
+from users.models import User
 
 # Create your views here.
 class RegisterView(APIView):
@@ -48,13 +47,15 @@ class LogoutView(APIView):
         )
 
 class ProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request):
+        if not isinstance(request.user, User):
+            return Response({'detail': 'Не авторизован'}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = UpdateProfileSerializer(
             request.user,
             data=request.data,
@@ -66,6 +67,8 @@ class ProfileView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
+        if not isinstance(request.user, User):
+            return Response({'detail': 'Не авторизован'}, status=status.HTTP_401_UNAUTHORIZED)
         user = request.user
         user.is_active = False
         user.save()
