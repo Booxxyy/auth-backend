@@ -73,6 +73,6 @@ class ProfileView(APIView):
         user.is_active = False
         user.save()
         return Response(
-            {'message': 'Аккаунт удалён'},
+            {'message': 'Аккаунт удалён. Вы вышли из системы'},
             status=status.HTTP_200_OK
         )
