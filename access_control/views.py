@@ -45,7 +45,7 @@ class RoleDetailView(APIView):
 class RoleUpdateView(APIView):
     permission_classes = [HasElementPermission]
     element_name = 'roles'
-    permission_type = 'edit'
+    permission_type = 'update'
 
     def patch(self, request, pk):
         try:
@@ -96,7 +96,7 @@ class AccessRoleRuleCreateView(APIView):
 class AccessRoleRuleUpdateView(APIView):
     permission_classes = [HasElementPermission]
     element_name = 'access_roles'
-    permission_type = 'edit'
+    permission_type = 'update'
 
     def patch(self, request, pk):
         try:

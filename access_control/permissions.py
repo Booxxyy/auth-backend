@@ -4,7 +4,7 @@ from users.models import User
 
 class HasElementPermission(BasePermission):
     def has_permission(self, request, view):
-        if not isinstanceИдеИ(request.user, User):
+        if not isinstance(request.user, User):
             return False
 
         element_name = getattr(view, 'element_name', None)

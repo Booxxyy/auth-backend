@@ -17,6 +17,8 @@ class Command(BaseCommand):
         products_el, _ = BusinessElement.objects.get_or_create(name='products', defaults={'description': 'Товары'})
         orders_el, _ = BusinessElement.objects.get_or_create(name='orders', defaults={'description': 'Заказы'})
         rules_el, _ = BusinessElement.objects.get_or_create(name='access_rules', defaults={'description': 'Правила доступа'})
+        roles_el, _ = BusinessElement.objects.get_or_create(name='roles', defaults={'description': 'Роли'})
+        access_roles_el, _ = BusinessElement.objects.get_or_create(name='access_roles', defaults={'description': 'Правила доступа для ролей'})
 
         # Правила — admin (всё разрешено)
         AccessRoleRule.objects.get_or_create(role=admin, element=users_el, defaults=dict(
@@ -32,6 +34,14 @@ class Command(BaseCommand):
             update_permission=True, update_all_permission=True, delete_permission=True, delete_all_permission=True
         ))
         AccessRoleRule.objects.get_or_create(role=admin, element=rules_el, defaults=dict(
+            read_permission=True, read_all_permission=True, create_permission=True,
+            update_permission=True, update_all_permission=True, delete_permission=True, delete_all_permission=True
+        ))
+        AccessRoleRule.objects.get_or_create(role=admin, element=roles_el, defaults=dict(
+            read_permission=True, read_all_permission=True, create_permission=True,
+            update_permission=True, update_all_permission=True, delete_permission=True, delete_all_permission=True
+        ))
+        AccessRoleRule.objects.get_or_create(role=admin, element=access_roles_el, defaults=dict(
             read_permission=True, read_all_permission=True, create_permission=True,
             update_permission=True, update_all_permission=True, delete_permission=True, delete_all_permission=True
         ))
